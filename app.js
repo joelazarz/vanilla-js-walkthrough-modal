@@ -1,14 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
 
 	setStyle = (element, cssObject) => {
+		if(element.nodeType !== 1){return console.log('setStyle requires DOM element node')}
 		for (let property in cssObject)
 		element.style[property] = cssObject[property];
-		console.log(cssObject)
+		// console.log(`${typeof property}: ${property}: ${cssObject[property]}`)
   };
 
 	const root = document.querySelector('#root');
-
+	root.setAttribute('data-id', 'root')
+	
 	setStyle(root, {
+		'text-align': 'center',
 		'display': 'flex',
 		'margin-top': '-8px',
 		'height': '100vh',
@@ -18,7 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	for(i=0; i < 5; i++) {
 		let box = document.createElement('div');
+		box.id = 'step'
 		box.classList.add(`step-${i+1}`);
+		box.setAttribute('data-id', `${i+1}`)
 		box.innerText = `step-${i+1}`;
 
 		setStyle(box, {
@@ -29,9 +34,28 @@ document.addEventListener('DOMContentLoaded', () => {
 			'border': '1px dotted black'
 		});
 
+		box.addEventListener('click', () => {
+			let elements = Array.from(document.querySelectorAll('#step'))
+			let outsideElements = elements.filter(element => element.dataset.id !== box.dataset.id)
+			setStyle(box, {
+				'background': 'white'
+			})
+			outsideElements.forEach(element => setStyle(element, {
+				'background': 'green'
+			}))
+		})
+
 		root.insertAdjacentElement('beforeend', box);
 
 	};
+	
+	root.addEventListener('click', (e) => {
+		if(e.target.dataset.id !== 'root'){return}
+		let children = Array.from(root.children)
+		children.forEach(element => setStyle(element, {
+			'background': 'white'
+		}))
+	})
 
 });
 
