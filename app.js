@@ -38,22 +38,29 @@ document.addEventListener('DOMContentLoaded', () => {
 			let elements = Array.from(document.querySelectorAll('#step'))
 			let outsideElements = elements.filter(element => element.dataset.id !== box.dataset.id)
 			setStyle(box, {
-				'background': 'white'
+				'background': 'white',
+				'color': 'black',
+				'text-shadow': 'none'
 			})
 			outsideElements.forEach(element => setStyle(element, {
-				'background': 'green'
+				'background': 'lightblue',
+				'color': 'transparent',
+				'text-shadow': '0 0 5px rgba(0,0,0,0.5)'
 			}))
 		})
 
 		root.insertAdjacentElement('beforeend', box);
-
+		
 	};
 	
+	// backgrounds of step elements to white 
 	root.addEventListener('click', (e) => {
 		if(e.target.dataset.id !== 'root'){return}
 		let children = Array.from(root.children)
 		children.forEach(element => setStyle(element, {
-			'background': 'white'
+			'background': 'white',
+			'color': 'black',
+			'text-shadow': 'none'
 		}))
 	})
 
